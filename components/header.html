@@ -1,0 +1,186 @@
+<style>
+    :root {
+        --dict-navy: #001F54;
+        --dict-gold: #ffcc26;
+        --dict-gold-hover: #cb9b00;
+        --white: #ffffff;
+    }
+
+    header {
+        background-color: var(--dict-navy);
+        padding: 25px 40px 15px 40px;
+        border-bottom: 5px solid var(--dict-gold);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* LEFT SIDE */
+    .header-left-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .header-left-content img {
+        width: 100px; /* Slightly scaled for better balance */
+        height: auto;
+        filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4));
+    }
+
+    .govt-text {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--white);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.9;
+    }
+
+    .header-titles h1 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--dict-gold);
+        line-height: 1.2;
+        text-transform: uppercase;
+    }
+
+    /* RIGHT SIDE */
+    .header-right-content {
+        text-align: right;
+    }
+
+    .slogan {
+        display: block;
+        font-style: italic;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--white);
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+
+    /* Standardized Time ID */
+    #pst-time {
+        display: inline-block;
+        font-family: 'Courier New', Courier, monospace; /* Monospace keeps numbers from jumping */
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--dict-gold);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 8px 15px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 204, 38, 0.2);
+    }
+
+    /* NAVIGATION */
+    .header-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 35px;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-nav a {
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--white);
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+
+    .header-nav a:hover, .header-nav a.active {
+        color: var(--dict-gold);
+    }
+
+    .login-btn {
+        background-color: var(--dict-gold);
+        color: var(--dict-navy) !important;
+        padding: 8px 25px;
+        border-radius: 4px; /* More "Governmental" than 50px pill */
+        margin-left: 10px;
+        font-weight: 800 !important;
+    }
+
+    .login-btn:hover {
+        background-color: var(--white);
+        transform: translateY(-2px);
+    }
+    #dict-logo {
+  width: 150px; /* Adjust this value as needed */
+  height: auto;
+}
+</style>
+
+<header>
+    <div class="header-container">
+        <div class="header-left-content">
+            <img id="dict-logo" src="assets/img/livelogo.gif" alt="DICT Logo">
+            <div class="header-titles">
+                <span class="govt-text">Republic of the Philippines</span>
+                <h1>Department of Information and Communications Technology</h1>
+            </div>
+        </div>
+
+        <div class="header-right-content">
+            <em class="slogan">"DICT of the people and for the people."</em>
+            <div id="pst-time">Philippine Standard Time:</div>
+        </div>
+    </div>
+
+    <nav class="header-nav">
+        <a href="javascript:void(0)" class="tab-link active" onclick="switchTab(event, 'home')">Home</a>
+        <a href="javascript:void(0)" class="tab-link" onclick="switchTab(event, 'about')">About</a>
+        <a href="javascript:void(0)" class="tab-link" onclick="switchTab(event, 'services')">Services</a>
+        <a href="javascript:void(0)" class="tab-link" onclick="switchTab(event, 'programs')">Programs & Projects</a>
+        <a href="javascript:void(0)" class="tab-link" onclick="switchTab(event, 'contacts')">Contact</a>
+        <a href="pages/login.php" class="login-btn">Admin Login</a>
+    </nav>
+</header>
+<script>
+    function updatePST() {
+        const pstElement = document.getElementById('pst-time');
+        if (!pstElement) return;
+
+        // Force the time to be Philippine Standard Time (GMT+8)
+        const options = {
+            timeZone: 'Asia/Manila',
+            hour12: true,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', options);
+        
+        // Formatting the Date
+        const dateOptions = {
+            timeZone: 'Asia/Manila',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            weekday: 'long'
+        };
+        const dateString = now.toLocaleDateString('en-US', dateOptions);
+
+        // Update the display
+        pstElement.innerHTML = `${dateString} | ${timeString}`;
+    }
+
+    // Refresh every second
+    setInterval(updatePST, 1000);
+
+    // Run immediately on load
+    updatePST();
+</script>
